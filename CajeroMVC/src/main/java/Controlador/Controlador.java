@@ -23,4 +23,8 @@ public class Controlador {
     public void iniciarTransaccion(){
         modelo.iniciarTransaccion();
     }
+    
+    public void calcularTransaccion(double monto){
+        modelo.calcularTransaccion(monto);
+    }
 }

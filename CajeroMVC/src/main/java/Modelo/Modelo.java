@@ -11,6 +11,7 @@ import DTO.TransaccionDTO;
 import EntidadesMock.Cajero;
 import EntidadesMock.Cliente;
 import EntidadesMock.Cuenta;
+import EntidadesMock.Transaccion;
 import Vista.Observador;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,7 @@ public class Modelo implements IModelo {
     private Cajero cajero;
     private Cuenta cuenta;
     private Cliente cliente; // Es más claro tener un "cliente actual"
+    private Transaccion transaccion;
 
     public Modelo() {
         this.cajero = new Cajero("CAJERO-001", 50000);
@@ -37,6 +39,8 @@ public class Modelo implements IModelo {
         // Crear cuenta de prueba y asociarla al cliente
         this.cuenta = new Cuenta("1234-5678", "Débito", "4152 3138 2132 2332", "1", 34010.50);
 
+        this.transaccion = new Transaccion();
+
     }
 
     public void ingresarBanco() {
@@ -45,6 +49,27 @@ public class Modelo implements IModelo {
 
     public void iniciarTransaccion() {
         notificarObservadores(TipoEvento.INICIAR_TRANSACCION);
+    }
+
+    public void calcularTransaccion(double monto) {
+        if (monto < 0 || monto > cuenta.getSaldo()) {
+            return;
+        }
+
+        transaccion.setEstado("Pendiente");
+        transaccion.setTipo("Retiro");
+        transaccion.setCliente(cliente);
+        transaccion.setMonto(monto);
+        //Calculos necesarios
+        final double TASA_DE_COMISION = 0.015; // Por ejemplo, 1.5%
+        double saldo = cuenta.getSaldo();
+        double tarifaComision = 0.02;
+        double montoComision = monto * TASA_DE_COMISION;
+        transaccion.setComision(montoComision);
+        double saldoRestante = saldo - monto - montoComision;
+        transaccion.setSaldoRestante(saldoRestante);
+
+        notificarObservadores(TipoEvento.CALCULOS_REALIZADOS);
     }
 
     public void notificarObservadores(TipoEvento evento) {
@@ -66,6 +91,7 @@ public class Modelo implements IModelo {
         );
     }
 
+    @Override
     public CuentaDTO getCuenta() {
         return new CuentaDTO(
                 cuenta.getNumeroCuenta(),
@@ -76,6 +102,7 @@ public class Modelo implements IModelo {
         );
     }
 
+    @Override
     public CajeroDTO getCajero() {
         return new CajeroDTO(
                 cajero.getIdentificadorCajero(),
@@ -84,6 +111,15 @@ public class Modelo implements IModelo {
     }
 
     public TransaccionDTO getTransaccion() {
-        return new TransaccionDTO();
+        TransaccionDTO transaccionDTO = new TransaccionDTO();
+        transaccionDTO.setEstado(transaccion.getEstado());
+        transaccionDTO.setTipo(transaccion.getTipo());
+        transaccionDTO.setCliente(new ClienteDTO(transaccion.getCliente().getIdCliente(), transaccion.getCliente().getNombre(),
+                transaccion.getCliente().getApellidoPaterno(), transaccion.getCliente().getApellidoMaterno()));
+        transaccionDTO.setMonto(transaccion.getMonto());
+        transaccionDTO.setComision(transaccion.getComision());
+        transaccionDTO.setSaldoRestante(transaccion.getSaldoRestante());
+
+        return transaccionDTO;
     }
 }

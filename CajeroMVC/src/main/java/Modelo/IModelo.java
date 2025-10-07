@@ -7,6 +7,7 @@ package Modelo;
 import DTO.CajeroDTO;
 import DTO.ClienteDTO;
 import DTO.CuentaDTO;
+import DTO.TransaccionDTO;
 
 /**
  *
@@ -19,4 +20,6 @@ public interface IModelo {
     public CajeroDTO getCajero();
 
     public CuentaDTO getCuenta();
+
+    public TransaccionDTO getTransaccion();
 }

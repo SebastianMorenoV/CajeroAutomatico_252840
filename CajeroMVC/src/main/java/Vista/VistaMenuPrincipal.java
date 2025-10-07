@@ -41,9 +41,12 @@ public class VistaMenuPrincipal extends javax.swing.JFrame implements Observador
                 cargarNombre(modelo);
                 break;
             case INICIAR_TRANSACCION:
-                pantallaRetiro = new PantallaRetiro(modelo);
+                pantallaRetiro = new PantallaRetiro(modelo,control);
                 cambiarPantalla(pantallaRetiro);
-
+                break;
+            case CALCULOS_REALIZADOS:
+                pantallaRetiro.mostrarDetalleRetiro();
+                break;
         }
     }
 

@@ -10,5 +10,6 @@ package Modelo;
  */
 public enum TipoEvento {
     INCIALIZAR_DATOS,
-    INICIAR_TRANSACCION
+    INICIAR_TRANSACCION,
+    CALCULOS_REALIZADOS
 }

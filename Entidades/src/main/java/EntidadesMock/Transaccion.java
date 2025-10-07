@@ -1,4 +1,3 @@
-
 package EntidadesMock;
 
 import java.time.LocalDateTime;
@@ -8,12 +7,14 @@ import java.time.LocalDateTime;
  * @author Sebastian Moreno
  */
 public class Transaccion {
-    
+
     String id;
     Cliente cliente;
     LocalDateTime fechaHora;
+    String estado;
     double monto;
     double comision = 0.02;
+    double saldoRestante;
     String tipo;
 
     public Transaccion() {
@@ -66,7 +67,21 @@ public class Transaccion {
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
-    
-    
-    
+
+    public double getSaldoRestante() {
+        return saldoRestante;
+    }
+
+    public void setSaldoRestante(double saldoRestante) {
+        this.saldoRestante = saldoRestante;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
 }

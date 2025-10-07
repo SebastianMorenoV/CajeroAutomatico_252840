@@ -1,6 +1,8 @@
 package Vista;
 
+import Controlador.Controlador;
 import DTO.CuentaDTO;
+import DTO.TransaccionDTO;
 import Modelo.IModelo;
 
 /**
@@ -10,10 +12,11 @@ import Modelo.IModelo;
 public class PantallaRetiro extends javax.swing.JPanel {
 
     private IModelo modelo;
+    private Controlador control;
 
-    public PantallaRetiro(IModelo modelo) {
+    public PantallaRetiro(IModelo modelo, Controlador control) {
         this.modelo = modelo;
-
+        this.control = control;
         initComponents();
         inicializarDatosCajero(modelo);
 
@@ -52,7 +55,7 @@ public class PantallaRetiro extends javax.swing.JPanel {
         txtComision = new javax.swing.JLabel();
         saldoActual = new javax.swing.JLabel();
         inputMontoPersonalizado = new javax.swing.JTextField();
-        checkbox1 = new java.awt.Checkbox();
+        checkbox = new java.awt.Checkbox();
         txtRetiroRapido = new javax.swing.JLabel();
 
         menuPrincipal.setBackground(new java.awt.Color(16, 12, 203));
@@ -251,7 +254,7 @@ public class PantallaRetiro extends javax.swing.JPanel {
             }
         });
         menuPrincipal.add(inputMontoPersonalizado, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 710, 200, -1));
-        menuPrincipal.add(checkbox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 710, -1, 30));
+        menuPrincipal.add(checkbox, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 710, -1, 30));
 
         txtRetiroRapido.setFont(new java.awt.Font("Inter", 0, 28)); // NOI18N
         txtRetiroRapido.setForeground(new java.awt.Color(255, 255, 255));
@@ -276,8 +279,17 @@ public class PantallaRetiro extends javax.swing.JPanel {
     }//GEN-LAST:event_inputMontoPersonalizadoActionPerformed
 
     private void tablaMontosDisponiblesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaMontosDisponiblesMouseClicked
-        if (evt.getClickCount() > 1) {
+        if (evt.getClickCount() > 1 && !checkbox.getState()) {
+            evt.consume();
+            int filaSeleccionada = tablaMontosDisponibles.rowAtPoint(evt.getPoint());
 
+            if (filaSeleccionada >= 0) {
+                Object valorCelda = tablaMontosDisponibles.getValueAt(filaSeleccionada, 0);
+                double montoSeleccionado = (double) valorCelda;
+
+                control.calcularTransaccion(montoSeleccionado);
+
+            }
         }
     }//GEN-LAST:event_tablaMontosDisponiblesMouseClicked
 
@@ -288,7 +300,7 @@ public class PantallaRetiro extends javax.swing.JPanel {
     private Vista.PanelRound btnMiCuenta1;
     private javax.swing.JLabel btnRetirarEfectivo;
     private javax.swing.JLabel cantidadARetirar;
-    private java.awt.Checkbox checkbox1;
+    private java.awt.Checkbox checkbox;
     private javax.swing.JLabel comision;
     private javax.swing.JTextField inputMontoPersonalizado;
     private javax.swing.JScrollPane jScrollPane1;
@@ -312,41 +324,45 @@ public class PantallaRetiro extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     public void inicializarDatosCajero(IModelo modelo) {
-        // Tu código para ocultar componentes está bien
-        cantidadARetirar.setVisible(false);
-        comision.setVisible(false);
-        saldoFinal.setVisible(false);
-        txtCantidadRetirar.setVisible(false);
-        txtComision.setVisible(false);
-        txtSaldoFinal.setVisible(false);
-
-        // 1. Obtén los datos necesarios del Modelo
-        // Es mejor usar 'double' para el dinero para manejar centavos.
-        int dineroDisponible = modelo.getCajero().getDineroDisponible();
-
-        // 2. Obtén el TableModel de tu JTable.
-        // Este es el objeto que realmente contiene los datos.
+        cambiarVisibilidadLabels(false);
+        int dineroDisponibleCajero = modelo.getCajero().getDineroDisponible();
+        double saldo = modelo.getCuenta().getSaldo();
         javax.swing.table.DefaultTableModel tableModel = (javax.swing.table.DefaultTableModel) tablaMontosDisponibles.getModel();
 
-        // 3. Limpia la tabla de datos anteriores (esto es una buena práctica)
         tableModel.setRowCount(0);
 
-        // 4. Itera y añade los montos que cumplen las condiciones
-        for (int i = 1; i <= 20; i++) { // Bucle hasta un máximo de 20 iteraciones
-            double monto = i * 200.00; // Calcula el monto (200, 400, 600...)
+        for (int i = 1; i <= 20; i++) {
+            double monto = i * 200.00;
 
-            // Condición de parada: Si el monto a mostrar es mayor o igual al dinero
-            // que tiene el cajero, ya no tiene caso seguir.
-            if (monto >= dineroDisponible) {
+            if (monto >= dineroDisponibleCajero || monto >= saldo) {
                 break; // Termina el bucle
             }
 
-            // Añade el monto como una nueva fila en la tabla.
-            // Se crea un array de Object porque una fila puede tener múltiples columnas.
             tableModel.addRow(new Object[]{monto});
         }
         nombreCliente.setText(modelo.getCliente().getNombres() + " " + modelo.getCliente().getApellidoPaterno() + " "
                 + modelo.getCliente().getApellidoMaterno());
         saldoActual.setText("$" + String.valueOf(modelo.getCuenta().getSaldo()));
+    }
+
+    public void mostrarDetalleRetiro() {
+        cambiarVisibilidadLabels(true);
+        TransaccionDTO transaccionTemporal = modelo.getTransaccion();
+        cantidadARetirar.setText("-$" + transaccionTemporal.getMonto());
+        comision.setText("-$" + transaccionTemporal.getComision());
+        saldoFinal.setText("$" + transaccionTemporal.getSaldoRestante());
+
+        revalidate();
+        repaint();
+    }
+
+    public void cambiarVisibilidadLabels(boolean estado) {
+        // Tu código para ocultar componentes está bien
+        cantidadARetirar.setVisible(estado);
+        comision.setVisible(estado);
+        saldoFinal.setVisible(estado);
+        txtCantidadRetirar.setVisible(estado);
+        txtComision.setVisible(estado);
+        txtSaldoFinal.setVisible(estado);
     }
 }
