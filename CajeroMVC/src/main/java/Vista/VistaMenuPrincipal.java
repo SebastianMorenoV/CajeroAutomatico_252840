@@ -22,6 +22,7 @@ public class VistaMenuPrincipal extends javax.swing.JFrame implements Observador
 
     //Pantallas Sistema
     PantallaRetiro pantallaRetiro;
+    PantallaRecibo pantallaRecibo;
 
     public VistaMenuPrincipal(Controlador control) {
         this.control = control;
@@ -40,13 +41,19 @@ public class VistaMenuPrincipal extends javax.swing.JFrame implements Observador
             case INCIALIZAR_DATOS:
                 cargarNombre(modelo);
                 break;
-            case INICIAR_TRANSACCION:
+            case INICIAR_RETIRO:
                 pantallaRetiro = new PantallaRetiro(modelo,control);
                 cambiarPantalla(pantallaRetiro);
                 break;
             case CALCULOS_REALIZADOS:
                 pantallaRetiro.mostrarDetalleRetiro();
                 break;
+            case FONDOS_INSUFICIENTES:
+                pantallaRetiro.mostrarErrorFondos();
+                break;
+            case FINALIZAR_RETIRO:
+                pantallaRecibo = new PantallaRecibo(modelo, control);
+                cambiarPantalla(pantallaRecibo);
         }
     }
 

@@ -14,6 +14,7 @@ public class TransaccionDTO {
 
     String identificador;
     ClienteDTO cliente;
+    CuentaDTO cuenta;
     LocalDateTime fechaHora;
     String estado;
     String tipo;
@@ -86,6 +87,19 @@ public class TransaccionDTO {
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
+    }
+
+    public CuentaDTO getCuenta() {
+        return cuenta;
+    }
+
+    public void setCuenta(CuentaDTO cuenta) {
+        this.cuenta = cuenta;
+    }
+
+    @Override
+    public String toString() {
+        return "TransaccionDTO{" + "identificador=" + identificador + ", cliente=" + cliente + ", cuenta=" + cuenta + ", fechaHora=" + fechaHora + ", estado=" + estado + ", tipo=" + tipo + ", monto=" + monto + ", comision=" + comision + ", saldoRestante=" + saldoRestante + '}';
     }
 
 }

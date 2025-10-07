@@ -4,6 +4,7 @@ import Controlador.Controlador;
 import DTO.CuentaDTO;
 import DTO.TransaccionDTO;
 import Modelo.IModelo;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -18,6 +19,8 @@ public class PantallaRetiro extends javax.swing.JPanel {
         this.modelo = modelo;
         this.control = control;
         initComponents();
+
+        agregarListenerAInput();
         inicializarDatosCajero(modelo);
 
     }
@@ -38,7 +41,7 @@ public class PantallaRetiro extends javax.swing.JPanel {
         txtOtroMontoPersonalizado = new javax.swing.JLabel();
         btnMiCuenta1 = new Vista.PanelRound();
         btnCancelar = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        tablaContenedora = new javax.swing.JScrollPane();
         tablaMontosDisponibles = new javax.swing.JTable();
         panelResumen = new Vista.PanelRound();
         nombreCliente = new javax.swing.JLabel();
@@ -73,11 +76,22 @@ public class PantallaRetiro extends javax.swing.JPanel {
         btnMiCuenta.setRoundBottomRight(20);
         btnMiCuenta.setRoundTopLeft(20);
         btnMiCuenta.setRoundTopRight(20);
+        btnMiCuenta.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnMiCuentaMouseClicked(evt);
+            }
+        });
 
         btnRetirarEfectivo.setFont(new java.awt.Font("Inter", 0, 24)); // NOI18N
         btnRetirarEfectivo.setForeground(new java.awt.Color(255, 255, 255));
         btnRetirarEfectivo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnRetirarEfectivo.setText("Retirar Efectivo");
+        btnRetirarEfectivo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnRetirarEfectivo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnRetirarEfectivoMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout btnMiCuentaLayout = new javax.swing.GroupLayout(btnMiCuenta);
         btnMiCuenta.setLayout(btnMiCuentaLayout);
@@ -134,9 +148,7 @@ public class PantallaRetiro extends javax.swing.JPanel {
 
         menuPrincipal.add(btnMiCuenta1, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 690, 200, 80));
 
-        tablaMontosDisponibles.setBackground(new java.awt.Color(255, 255, 255));
-        tablaMontosDisponibles.setFont(new java.awt.Font("Inter", 1, 18)); // NOI18N
-        tablaMontosDisponibles.setForeground(new java.awt.Color(0, 0, 0));
+        tablaMontosDisponibles.setFont(new java.awt.Font("Inter", 1, 36)); // NOI18N
         tablaMontosDisponibles.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -153,14 +165,15 @@ public class PantallaRetiro extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        tablaMontosDisponibles.setRowHeight(40);
         tablaMontosDisponibles.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tablaMontosDisponiblesMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(tablaMontosDisponibles);
+        tablaContenedora.setViewportView(tablaMontosDisponibles);
 
-        menuPrincipal.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 290, 150, 370));
+        menuPrincipal.add(tablaContenedora, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 290, 150, 370));
 
         panelResumen.setBackground(new java.awt.Color(255, 255, 255));
         panelResumen.setRoundBottomLeft(20);
@@ -170,19 +183,16 @@ public class PantallaRetiro extends javax.swing.JPanel {
         panelResumen.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         nombreCliente.setFont(new java.awt.Font("Inter", 1, 24)); // NOI18N
-        nombreCliente.setForeground(new java.awt.Color(0, 0, 0));
         nombreCliente.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         nombreCliente.setText("Juan Miguel Velázquez");
         panelResumen.add(nombreCliente, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 80, 610, -1));
 
         txtDetalleRetiro.setFont(new java.awt.Font("Inter", 1, 36)); // NOI18N
-        txtDetalleRetiro.setForeground(new java.awt.Color(0, 0, 0));
         txtDetalleRetiro.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         txtDetalleRetiro.setText("Detalle de el retiro");
         panelResumen.add(txtDetalleRetiro, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 180, 730, -1));
 
         saldoFinal.setFont(new java.awt.Font("Inter", 1, 24)); // NOI18N
-        saldoFinal.setForeground(new java.awt.Color(0, 0, 0));
         saldoFinal.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         saldoFinal.setText("$2,505.54");
         panelResumen.add(saldoFinal, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 320, 530, -1));
@@ -194,32 +204,27 @@ public class PantallaRetiro extends javax.swing.JPanel {
         panelResumen.add(comision, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 270, 490, -1));
 
         subHeader6.setFont(new java.awt.Font("Inter", 0, 24)); // NOI18N
-        subHeader6.setForeground(new java.awt.Color(0, 0, 0));
         subHeader6.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         subHeader6.setText("Saldo actual:");
         panelResumen.add(subHeader6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, 160, -1));
         panelResumen.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 172, 750, 10));
 
         txtResumenOperacion.setFont(new java.awt.Font("Inter", 1, 36)); // NOI18N
-        txtResumenOperacion.setForeground(new java.awt.Color(0, 0, 0));
         txtResumenOperacion.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         txtResumenOperacion.setText("Resumen de operación");
         panelResumen.add(txtResumenOperacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 730, -1));
 
         subHeader8.setFont(new java.awt.Font("Inter", 0, 24)); // NOI18N
-        subHeader8.setForeground(new java.awt.Color(0, 0, 0));
         subHeader8.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         subHeader8.setText("Cliente:");
         panelResumen.add(subHeader8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 100, -1));
 
         txtSaldoFinal.setFont(new java.awt.Font("Inter", 0, 24)); // NOI18N
-        txtSaldoFinal.setForeground(new java.awt.Color(0, 0, 0));
         txtSaldoFinal.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         txtSaldoFinal.setText("Saldo Final:");
         panelResumen.add(txtSaldoFinal, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 320, 210, -1));
 
         txtCantidadRetirar.setFont(new java.awt.Font("Inter", 0, 24)); // NOI18N
-        txtCantidadRetirar.setForeground(new java.awt.Color(0, 0, 0));
         txtCantidadRetirar.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         txtCantidadRetirar.setText("Cantidad a Retirar:");
         panelResumen.add(txtCantidadRetirar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 230, 210, -1));
@@ -231,29 +236,42 @@ public class PantallaRetiro extends javax.swing.JPanel {
         panelResumen.add(cantidadARetirar, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 230, 490, -1));
 
         txtComision.setFont(new java.awt.Font("Inter", 0, 24)); // NOI18N
-        txtComision.setForeground(new java.awt.Color(0, 0, 0));
         txtComision.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         txtComision.setText("Comision (2%):");
         panelResumen.add(txtComision, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 270, 210, -1));
 
         saldoActual.setFont(new java.awt.Font("Inter", 1, 24)); // NOI18N
-        saldoActual.setForeground(new java.awt.Color(0, 0, 0));
         saldoActual.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         saldoActual.setText("$2,505.54");
         panelResumen.add(saldoActual, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 120, 530, -1));
 
         menuPrincipal.add(panelResumen, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 250, 750, 390));
 
-        inputMontoPersonalizado.setBackground(new java.awt.Color(255, 255, 255));
         inputMontoPersonalizado.setFont(new java.awt.Font("Inter", 0, 18)); // NOI18N
-        inputMontoPersonalizado.setForeground(new java.awt.Color(0, 0, 0));
         inputMontoPersonalizado.setText("Digita un monto ($)");
+        inputMontoPersonalizado.setEnabled(false);
+        inputMontoPersonalizado.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                inputMontoPersonalizadoMouseClicked(evt);
+            }
+        });
         inputMontoPersonalizado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 inputMontoPersonalizadoActionPerformed(evt);
             }
         });
         menuPrincipal.add(inputMontoPersonalizado, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 710, 200, -1));
+
+        checkbox.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                checkboxMouseClicked(evt);
+            }
+        });
+        checkbox.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                checkboxItemStateChanged(evt);
+            }
+        });
         menuPrincipal.add(checkbox, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 710, -1, 30));
 
         txtRetiroRapido.setFont(new java.awt.Font("Inter", 0, 28)); // NOI18N
@@ -293,6 +311,39 @@ public class PantallaRetiro extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_tablaMontosDisponiblesMouseClicked
 
+    private void checkboxMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_checkboxMouseClicked
+
+    }//GEN-LAST:event_checkboxMouseClicked
+
+    private void checkboxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_checkboxItemStateChanged
+        if (checkbox.getState()) {
+            inputMontoPersonalizado.setEnabled(true);
+            tablaMontosDisponibles.setEnabled(false);
+            tablaContenedora.setVisible(false);
+            tablaMontosDisponibles.setVisible(false);
+            txtRetiroRapido.setVisible(false);
+        } else {
+            inputMontoPersonalizado.setEnabled(false);
+            tablaMontosDisponibles.setEnabled(true);
+            tablaContenedora.setVisible(true);
+            tablaMontosDisponibles.setVisible(true);
+            txtRetiroRapido.setVisible(true);
+
+        }
+    }//GEN-LAST:event_checkboxItemStateChanged
+
+    private void inputMontoPersonalizadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_inputMontoPersonalizadoMouseClicked
+        inputMontoPersonalizado.setText("");
+    }//GEN-LAST:event_inputMontoPersonalizadoMouseClicked
+
+    private void btnMiCuentaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMiCuentaMouseClicked
+        control.finalizarRetiro();
+    }//GEN-LAST:event_btnMiCuentaMouseClicked
+
+    private void btnRetirarEfectivoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRetirarEfectivoMouseClicked
+        control.finalizarRetiro();
+    }//GEN-LAST:event_btnRetirarEfectivoMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnCancelar;
@@ -303,7 +354,6 @@ public class PantallaRetiro extends javax.swing.JPanel {
     private java.awt.Checkbox checkbox;
     private javax.swing.JLabel comision;
     private javax.swing.JTextField inputMontoPersonalizado;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JPanel menuPrincipal;
     private javax.swing.JLabel nombreCliente;
@@ -312,6 +362,7 @@ public class PantallaRetiro extends javax.swing.JPanel {
     private javax.swing.JLabel saldoFinal;
     private javax.swing.JLabel subHeader6;
     private javax.swing.JLabel subHeader8;
+    private javax.swing.JScrollPane tablaContenedora;
     private javax.swing.JTable tablaMontosDisponibles;
     private javax.swing.JLabel titulo;
     private javax.swing.JLabel txtCantidadRetirar;
@@ -364,5 +415,43 @@ public class PantallaRetiro extends javax.swing.JPanel {
         txtCantidadRetirar.setVisible(estado);
         txtComision.setVisible(estado);
         txtSaldoFinal.setVisible(estado);
+    }
+
+    public void agregarListenerAInput() {
+        inputMontoPersonalizado.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
+
+            private void onTextChanged() {
+                String montoEscrito = inputMontoPersonalizado.getText().trim();
+
+                if (montoEscrito.isEmpty()) {
+                    return;
+                }
+
+                try {
+                    double monto = Double.parseDouble(montoEscrito);
+                    control.calcularTransaccion(monto);
+                } catch (NumberFormatException e) {
+                    System.out.println("Entrada no válida: " + montoEscrito);
+                }
+            }
+
+            @Override
+            public void insertUpdate(javax.swing.event.DocumentEvent e) {
+                onTextChanged();
+            }
+
+            @Override
+            public void removeUpdate(javax.swing.event.DocumentEvent e) {
+                onTextChanged();
+            }
+
+            @Override
+            public void changedUpdate(javax.swing.event.DocumentEvent e) {
+            }
+        });
+    }
+
+    public void mostrarErrorFondos() {
+        JOptionPane.showMessageDialog(this, "Fondos insuficientes, porfavor digita una cantidad valida.", "Error: Fondos insuficientes", JOptionPane.ERROR_MESSAGE);
     }
 }

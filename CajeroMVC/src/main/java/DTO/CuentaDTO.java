@@ -66,4 +66,10 @@ public class CuentaDTO {
     public void setSaldo(double saldo) {
         this.saldo = saldo;
     }
+
+    @Override
+    public String toString() {
+        return "CuentaDTO{" + "numeroCuenta=" + numeroCuenta + ", tipoCuenta=" + tipoCuenta + ", numeroTarjeta=" + numeroTarjeta + ", idCliente=" + idCliente + ", saldo=" + saldo + '}';
+    }
+    
 }

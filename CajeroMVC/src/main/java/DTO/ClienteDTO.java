@@ -60,4 +60,9 @@ public class ClienteDTO {
         this.apellidoMaterno = apellidoMaterno;
     }
 
+    @Override
+    public String toString() {
+        return "ClienteDTO{" + "idCliente=" + idCliente + ", nombres=" + nombres + ", apellidoPaterno=" + apellidoPaterno + ", apellidoMaterno=" + apellidoMaterno + ", numeroCuenta=" + numeroCuenta + ", tipoCuenta=" + tipoCuenta + ", saldoActual=" + saldoActual + '}';
+    }
+
 }

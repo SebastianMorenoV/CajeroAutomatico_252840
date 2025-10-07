@@ -21,10 +21,13 @@ public class Controlador {
     }
     
     public void iniciarTransaccion(){
-        modelo.iniciarTransaccion();
+        modelo.iniciarRetiro();
     }
     
     public void calcularTransaccion(double monto){
-        modelo.calcularTransaccion(monto);
+        modelo.calcularRetiro(monto);
+    }
+    public void finalizarRetiro(){
+        modelo.finalizarRetiro();
     }
 }
