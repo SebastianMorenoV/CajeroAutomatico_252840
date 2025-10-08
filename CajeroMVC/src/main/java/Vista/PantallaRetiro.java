@@ -4,6 +4,7 @@ import Controlador.Controlador;
 import DTO.CuentaDTO;
 import DTO.TransaccionDTO;
 import Modelo.IModelo;
+import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 
 /**
@@ -14,6 +15,7 @@ public class PantallaRetiro extends javax.swing.JPanel {
 
     private IModelo modelo;
     private Controlador control;
+    private double montoTemporal;
 
     public PantallaRetiro(IModelo modelo, Controlador control) {
         this.modelo = modelo;
@@ -76,11 +78,6 @@ public class PantallaRetiro extends javax.swing.JPanel {
         btnMiCuenta.setRoundBottomRight(20);
         btnMiCuenta.setRoundTopLeft(20);
         btnMiCuenta.setRoundTopRight(20);
-        btnMiCuenta.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnMiCuentaMouseClicked(evt);
-            }
-        });
 
         btnRetirarEfectivo.setFont(new java.awt.Font("Inter", 0, 24)); // NOI18N
         btnRetirarEfectivo.setForeground(new java.awt.Color(255, 255, 255));
@@ -128,6 +125,12 @@ public class PantallaRetiro extends javax.swing.JPanel {
         btnCancelar.setForeground(new java.awt.Color(255, 255, 255));
         btnCancelar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         btnCancelar.setText("Cancelar");
+        btnCancelar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnCancelar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnCancelarMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout btnMiCuenta1Layout = new javax.swing.GroupLayout(btnMiCuenta1);
         btnMiCuenta1.setLayout(btnMiCuenta1Layout);
@@ -260,6 +263,14 @@ public class PantallaRetiro extends javax.swing.JPanel {
                 inputMontoPersonalizadoActionPerformed(evt);
             }
         });
+        inputMontoPersonalizado.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                inputMontoPersonalizadoKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                inputMontoPersonalizadoKeyTyped(evt);
+            }
+        });
         menuPrincipal.add(inputMontoPersonalizado, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 710, 200, -1));
 
         checkbox.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -336,13 +347,32 @@ public class PantallaRetiro extends javax.swing.JPanel {
         inputMontoPersonalizado.setText("");
     }//GEN-LAST:event_inputMontoPersonalizadoMouseClicked
 
-    private void btnMiCuentaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMiCuentaMouseClicked
-        control.finalizarRetiro();
-    }//GEN-LAST:event_btnMiCuentaMouseClicked
-
     private void btnRetirarEfectivoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRetirarEfectivoMouseClicked
-        control.finalizarRetiro();
+        if (montoTemporal > 0) {
+            // Si es válido, procede a finalizar el retiro.
+            control.finalizarRetiro();
+        } else {
+            // Si no (sigue en 0 o es negativo), muestra un mensaje al usuario.
+            JOptionPane.showMessageDialog(this, "Por favor, seleccione o ingrese un monto para continuar.", "Monto no seleccionado", JOptionPane.WARNING_MESSAGE);
+        }
+
     }//GEN-LAST:event_btnRetirarEfectivoMouseClicked
+
+    private void inputMontoPersonalizadoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inputMontoPersonalizadoKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_inputMontoPersonalizadoKeyReleased
+
+    private void inputMontoPersonalizadoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inputMontoPersonalizadoKeyTyped
+
+        char c = evt.getKeyChar();
+        if (!Character.isDigit(c) && c != KeyEvent.VK_BACK_SPACE) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_inputMontoPersonalizadoKeyTyped
+
+    private void btnCancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCancelarMouseClicked
+        control.ingresarBanco();
+    }//GEN-LAST:event_btnCancelarMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -399,6 +429,7 @@ public class PantallaRetiro extends javax.swing.JPanel {
     public void mostrarDetalleRetiro() {
         cambiarVisibilidadLabels(true);
         TransaccionDTO transaccionTemporal = modelo.getTransaccion();
+        this.montoTemporal = transaccionTemporal.getMonto();
         cantidadARetirar.setText("-$" + transaccionTemporal.getMonto());
         comision.setText("-$" + transaccionTemporal.getComision());
         saldoFinal.setText("$" + transaccionTemporal.getSaldoRestante());

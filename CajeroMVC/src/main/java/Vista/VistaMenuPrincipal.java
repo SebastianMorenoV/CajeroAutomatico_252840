@@ -40,9 +40,10 @@ public class VistaMenuPrincipal extends javax.swing.JFrame implements Observador
         switch (evento) {
             case INCIALIZAR_DATOS:
                 cargarNombre(modelo);
+                cambiarPantalla(menuPrincipal);
                 break;
             case INICIAR_RETIRO:
-                pantallaRetiro = new PantallaRetiro(modelo,control);
+                pantallaRetiro = new PantallaRetiro(modelo, control);
                 cambiarPantalla(pantallaRetiro);
                 break;
             case CALCULOS_REALIZADOS:
@@ -54,6 +55,7 @@ public class VistaMenuPrincipal extends javax.swing.JFrame implements Observador
             case FINALIZAR_RETIRO:
                 pantallaRecibo = new PantallaRecibo(modelo, control);
                 cambiarPantalla(pantallaRecibo);
+                break;
         }
     }
 
@@ -266,5 +268,9 @@ public class VistaMenuPrincipal extends javax.swing.JFrame implements Observador
         // Actualizar interfaz
         getContentPane().revalidate();
         getContentPane().repaint();
+    }
+
+    public VistaMenuPrincipal getVista() {
+        return this;
     }
 }
