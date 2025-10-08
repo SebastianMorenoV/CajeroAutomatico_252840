@@ -316,7 +316,7 @@ public class PantallaRetiro extends javax.swing.JPanel {
                 Object valorCelda = tablaMontosDisponibles.getValueAt(filaSeleccionada, 0);
                 double montoSeleccionado = (double) valorCelda;
 
-                control.calcularTransaccion(montoSeleccionado);
+                control.calcularRetiro(montoSeleccionado);
 
             }
         }
@@ -460,7 +460,7 @@ public class PantallaRetiro extends javax.swing.JPanel {
 
                 try {
                     double monto = Double.parseDouble(montoEscrito);
-                    control.calcularTransaccion(monto);
+                    control.calcularRetiro(monto);
                 } catch (NumberFormatException e) {
                     System.out.println("Entrada no válida: " + montoEscrito);
                 }

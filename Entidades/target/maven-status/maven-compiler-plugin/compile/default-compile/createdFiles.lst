@@ -1,4 +1,6 @@
-EntidadesMock\Cajero.class
-EntidadesMock\Cliente.class
-EntidadesMock\Cuenta.class
-EntidadesMock\Transaccion.class
+Entidades\Cajero.class
+Entidades\Cuenta.class
+Entidades\Cliente.class
+Entidades\Transaccion.class
+Fachada\CajeroFachada.class
+Fachada\ICajeroFachada.class

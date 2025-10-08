@@ -235,7 +235,7 @@ public class VistaMenuPrincipal extends javax.swing.JFrame implements Observador
     }// </editor-fold>//GEN-END:initComponents
 
     private void lblRetirarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRetirarMouseClicked
-        control.iniciarTransaccion();
+        control.iniciarRetiro();
     }//GEN-LAST:event_lblRetirarMouseClicked
 
 
@@ -268,9 +268,5 @@ public class VistaMenuPrincipal extends javax.swing.JFrame implements Observador
         // Actualizar interfaz
         getContentPane().revalidate();
         getContentPane().repaint();
-    }
-
-    public VistaMenuPrincipal getVista() {
-        return this;
     }
 }
