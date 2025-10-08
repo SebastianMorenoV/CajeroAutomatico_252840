@@ -1,13 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Controlador;
 
 import Modelo.Modelo;
 
 /**
- *
+ * Representa el mediador entre la vista(Presentacion) y modelo (Datos)
+ * Recibe parametros de la vista y delega responsabilidad a modelo.
  * @author Sebastian Moreno
  */
 public class Controlador {

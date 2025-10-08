@@ -1,13 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package DTO;
 
 import java.time.LocalDateTime;
 
 /**
- *
+ * Esta clase representa una transaccion temporal o final dependiendo de el estado de el sistema.
+ * Utilizada en la vista para crear o finalizar una transaccion.
  * @author Sebastian Moreno
  */
 public class TransaccionDTO {

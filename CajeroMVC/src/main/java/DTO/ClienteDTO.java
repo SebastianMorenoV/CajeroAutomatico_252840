@@ -1,11 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package DTO;
 
 /**
- *
+ * Esta clase representa un data transfer object de un Cliente
+ * para ser usado en presentacion.
  * @author Sebastian Moreno
  */
 public class ClienteDTO {
@@ -14,9 +12,6 @@ public class ClienteDTO {
     String nombres;
     String apellidoPaterno;
     String apellidoMaterno;
-    String numeroCuenta;
-    String tipoCuenta;
-    double saldoActual;
 
     public ClienteDTO() {
     }
@@ -62,7 +57,7 @@ public class ClienteDTO {
 
     @Override
     public String toString() {
-        return "ClienteDTO{" + "idCliente=" + idCliente + ", nombres=" + nombres + ", apellidoPaterno=" + apellidoPaterno + ", apellidoMaterno=" + apellidoMaterno + ", numeroCuenta=" + numeroCuenta + ", tipoCuenta=" + tipoCuenta + ", saldoActual=" + saldoActual + '}';
+        return "ClienteDTO{" + "idCliente=" + idCliente + ", nombres=" + nombres + ", apellidoPaterno=" + apellidoPaterno + ", apellidoMaterno=" + apellidoMaterno + '}';
     }
 
 }

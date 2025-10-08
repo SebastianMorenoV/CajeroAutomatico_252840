@@ -5,7 +5,8 @@
 package DTO;
 
 /**
- *
+ * Esta clase representa un Data transfer object de un cajero
+ * para ser usado en presentacion.
  * @author Sebastian Moreno
  */
 public class CajeroDTO {

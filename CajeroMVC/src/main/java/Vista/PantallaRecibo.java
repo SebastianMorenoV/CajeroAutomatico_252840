@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
+
 package Vista;
 
 import Controlador.Controlador;
@@ -13,7 +10,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 /**
- *
+ * Representa un objeto de presentacion que muestra un recibo de una transaccion exitosa.
  * @author moren
  */
 public class PantallaRecibo extends javax.swing.JPanel {
@@ -261,7 +258,11 @@ public class PantallaRecibo extends javax.swing.JPanel {
     private javax.swing.JLabel txtResumenOperacion;
     private javax.swing.JLabel txtSaldoFinal;
     // End of variables declaration//GEN-END:variables
-
+    /**
+     * Metodo para mostrar un gif y ocultar los elementos de este panel.
+     * Simula la pantalla de carga para realizar el ticket.
+     * Una vez terminado el gif hace la llamada para mostrar el recibo.
+     */
     public void ejecutarAnimacionDeCarga() {
 
         titulo.setVisible(false);
@@ -285,7 +286,9 @@ public class PantallaRecibo extends javax.swing.JPanel {
         timer.setRepeats(false);
         timer.start();
     }
-
+    /**
+     * Metodo para mostrar los datos de una transaccion en forma de recibo.
+     */
     public void incializarDatosTransaccion() {
         TransaccionDTO transaccion = modelo.getTransaccion();
         comision.setText("-$" + transaccion.getComision());

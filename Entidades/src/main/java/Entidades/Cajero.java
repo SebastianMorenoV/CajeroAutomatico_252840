@@ -1,11 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Entidades;
 
 /**
- *
+ * Esta clase representa un cajero dentro de un banco
+ * Simulando que deberia de tener dinero valido para poder retirar o hacer movimientos.
  * @author Sebastian Moreno
  */
 public class Cajero {

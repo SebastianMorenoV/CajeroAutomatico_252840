@@ -3,7 +3,8 @@ package Entidades;
 import java.time.LocalDateTime;
 
 /**
- *
+ * Esta clase representa una transaccion realizada por un cliente.
+ * Puede ser temporal o exitosa.
  * @author Sebastian Moreno
  */
 public class Transaccion {

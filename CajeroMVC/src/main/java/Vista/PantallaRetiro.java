@@ -8,7 +8,8 @@ import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 
 /**
- *
+ * Representa un objeto de presentación para realizar un retiro.
+ * Muestra los datos de un retiro en especifico y los datos de un cliente.
  * @author Sebastian Moreno
  */
 public class PantallaRetiro extends javax.swing.JPanel {
@@ -403,7 +404,12 @@ public class PantallaRetiro extends javax.swing.JPanel {
     private javax.swing.JLabel txtRetiroRapido;
     private javax.swing.JLabel txtSaldoFinal;
     // End of variables declaration//GEN-END:variables
-
+    /**
+     * Metodo para mostrar la informacion de un retiro:
+     * Cuantos montos mostrar dependiendo de el dinero de el cliente y dinero de el cajero.
+     * Muestra o no elementos de este objetoUI.
+     * @param modelo 
+     */
     public void inicializarDatosCajero(IModelo modelo) {
         cambiarVisibilidadLabels(false);
         int dineroDisponibleCajero = modelo.getCajero().getDineroDisponible();
@@ -425,7 +431,9 @@ public class PantallaRetiro extends javax.swing.JPanel {
                 + modelo.getCliente().getApellidoMaterno());
         saldoActual.setText("$" + String.valueOf(modelo.getCuenta().getSaldo()));
     }
-
+    /**
+     * Muestra los detalles de un retiro temporal en la pantalla.
+     */
     public void mostrarDetalleRetiro() {
         cambiarVisibilidadLabels(true);
         TransaccionDTO transaccionTemporal = modelo.getTransaccion();
@@ -437,9 +445,11 @@ public class PantallaRetiro extends javax.swing.JPanel {
         revalidate();
         repaint();
     }
-
+    /**
+     * Metodo auxiliar para cambiar la visibilidad de los labels
+     * @param estado 
+     */
     public void cambiarVisibilidadLabels(boolean estado) {
-        // Tu código para ocultar componentes está bien
         cantidadARetirar.setVisible(estado);
         comision.setVisible(estado);
         saldoFinal.setVisible(estado);
@@ -447,7 +457,9 @@ public class PantallaRetiro extends javax.swing.JPanel {
         txtComision.setVisible(estado);
         txtSaldoFinal.setVisible(estado);
     }
-
+    /**
+     * Metodo para añadir un document listener a un input y asi hacer una interfaz fluida , delegando la responsabilidad a modelo.
+     */
     public void agregarListenerAInput() {
         inputMontoPersonalizado.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
 

@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package Vista;
 
 import Controlador.Controlador;
@@ -10,17 +7,16 @@ import Modelo.TipoEvento;
 import javax.swing.JPanel;
 
 /**
- *
+ * Esta clase representa la Vista de un menuPrincipal en el sistema.
+ * (Esta clase es notificada por modelo mediante el patron Observer).
+ * Mediante los eventos decide a que objeto o que metodo de los objetos de presentacion usar.
  * @author Sebastian Moreno
  */
 public class VistaMenuPrincipal extends javax.swing.JFrame implements Observador {
 
-    /**
-     * Creates new form VistaMenuPrincipal
-     */
     Controlador control;
 
-    //Pantallas Sistema
+    //Objetos de Presentación.
     PantallaRetiro pantallaRetiro;
     PantallaRecibo pantallaRecibo;
 
@@ -34,7 +30,13 @@ public class VistaMenuPrincipal extends javax.swing.JFrame implements Observador
 
         initComponents();
     }
-
+    /**
+     * Metodo obtenido desde la implementación de un observador.
+     * Dependiendo de el evento utiliza los objetos de presentacion, para mostrar informacion en ellos 
+     * o crearlos y cambiar de pantalla.
+     * @param modelo es una intefaz que segrega metodos por las clases que lo implementan.
+     * @param evento es el evento que tambien es mandado por las clases que implementan a IModelo en este caso especifico (modelo).
+     */
     @Override
     public void actualiza(IModelo modelo, TipoEvento evento) {
         switch (evento) {
@@ -265,7 +267,6 @@ public class VistaMenuPrincipal extends javax.swing.JFrame implements Observador
         nuevaPantalla.setSize(this.getSize());
         nuevaPantalla.setVisible(true);
 
-        // Actualizar interfaz
         getContentPane().revalidate();
         getContentPane().repaint();
     }

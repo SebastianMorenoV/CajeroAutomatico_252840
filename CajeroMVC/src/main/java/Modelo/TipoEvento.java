@@ -5,7 +5,7 @@
 package Modelo;
 
 /**
- *
+ * Clase que representa los tipos de eventos de el sistema de cajero.
  * @author Sebastian Moreno
  */
 public enum TipoEvento {

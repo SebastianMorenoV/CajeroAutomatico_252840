@@ -5,7 +5,7 @@
 package Entidades;
 
 /**
- *
+ * Representa la cuenta de un cliente en especifico.
  * @author Sebastian Moreno
  */
 public class Cuenta {

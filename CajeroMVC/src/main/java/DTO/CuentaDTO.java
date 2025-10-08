@@ -1,11 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package DTO;
 
-/**
- *
+/** 
+ * Esta clase Data transfer Object representa una cuenta de un cliente
+ * utilizada en la vista para saber cuanto dinero hay en la cuenta de un cliente.
  * @author Sebastian Moreno
  */
 public class CuentaDTO {
