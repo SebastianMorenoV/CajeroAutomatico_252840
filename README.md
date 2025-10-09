@@ -60,4 +60,4 @@ El proyecto sigue un diseño modular para separar la lógica de negocio de la in
 ---
 
 ## 👨‍💻 Autor
-- Sebastian Moreno (según comentarios en el código)
+-Erick Sebastian Moreno Vargas 252840
